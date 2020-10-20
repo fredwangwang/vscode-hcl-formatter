@@ -1,0 +1,69 @@
+{
+    "name": "vscode-hcl-format",
+    "displayName": "HCL Format",
+    "description": "format HCL (HashiCorp Configuration Language)",
+    "version": "0.1.0",
+    "publisher": "fredwangwang",
+    "engines": {
+        "vscode": "^1.30.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/fredwangwang/vscode-hcl-formatter.git"
+    },
+    "license": "MIT",
+    "categories": [
+        "Formatters"
+    ],
+    "activationEvents": [
+        "onLanguage:hcl"
+    ],
+    "main": "./out/src/extension",
+    "capabilities": {
+        "documentFormattingProvider": "true"
+    },
+    "keywords": [
+        "format",
+        "hcl",
+        "hashicorp",
+        "hashicorp configuration language"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "hcl",
+                "aliases": [
+                    "HCL"
+                ],
+                "extensions": [
+                    "hcl"
+                ]
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "HCL Format",
+            "properties": {
+                "hclformat.path": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "the hclfmt fullpath  example[ mac,linux ] /usr/local/bin/hclfmt  [windows] C:/bin/hclfmt.exe   install from https://github.com/fatih/hclfmt"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "package": "tsc && ./node_modules/.bin/vsce package"
+    },
+    "devDependencies": {
+        "@types/node": "^12.12.68",
+        "@types/vscode": "^1.30.0",
+        "typescript": "^4.0.3",
+        "vsce": "^1.81.1",
+        "vscode": "^1.1.37"
+    }
+}
