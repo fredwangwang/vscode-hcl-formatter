@@ -4,7 +4,7 @@ import * as cp from 'child_process';
 
 const hclformatPathConfig = 'hclformat.path';
 
-const output = vscode.window.createOutputChannel('hclformat');
+const output = vscode.window.createOutputChannel('HCL Format');
 
 export function activate(context: vscode.ExtensionContext) {
     let clipath = vscode.workspace.getConfiguration().get<string>(hclformatPathConfig);
@@ -32,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (!cliexist) {
             vscode.window.showErrorMessage(`hclfmt path: ${clipath} does not exist`);
         }
-        
+
         const start = new vscode.Position(0, 0);
         const end = new vscode.Position(
             document.lineCount - 1,
@@ -41,12 +41,14 @@ export function activate(context: vscode.ExtensionContext) {
         const range = new vscode.Range(start, end);
         const content = document.getText(range);
 
-        let ret: cp.SpawnSyncReturns<Buffer> = cp.spawnSync(clipath, [], {input: content});
+        let ret: cp.SpawnSyncReturns<Buffer> = cp.spawnSync(clipath, [], { input: content });
         if (ret.status != 0) {
-            output.appendLine('format errored');
+            output.appendLine('format error');
             output.appendLine(ret.stderr.toString())
+            vscode.window.showErrorMessage(`hclfmt: ${ret.stderr.toString()}`)
+            return []
         }
-
+        output.appendLine('formatted')
         return [vscode.TextEdit.replace(range, ret.stdout.toString())];
     }
 
@@ -58,7 +60,6 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 }
-
 
 export function deactivate() { }
 

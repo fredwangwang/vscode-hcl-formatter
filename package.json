@@ -2,7 +2,7 @@
     "name": "vscode-hcl-format",
     "displayName": "HCL Format",
     "description": "format HCL (HashiCorp Configuration Language)",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "publisher": "fredwangwang",
     "engines": {
         "vscode": "^1.30.0"
