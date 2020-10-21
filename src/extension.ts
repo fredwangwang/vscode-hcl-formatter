@@ -2,12 +2,15 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as cp from 'child_process';
 
-const hclformatPathConfig = 'hclformat.path';
+import { preprocess, postprocess } from './process_levant'
+
+const hclfmtPathConfig = 'hclformat.path';
+const levantSupportConfig = 'hclformat.levant_support';
 
 const output = vscode.window.createOutputChannel('HCL Format');
 
 export function activate(context: vscode.ExtensionContext) {
-    let clipath = vscode.workspace.getConfiguration().get<string>(hclformatPathConfig);
+    let clipath = vscode.workspace.getConfiguration().get<string>(hclfmtPathConfig);
     let cliexist = false;
     try {
         cliexist = fs.existsSync(clipath);
@@ -22,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     function formatDocumentWithContent(document: vscode.TextDocument): vscode.TextEdit[] {
-        let clipath = vscode.workspace.getConfiguration().get<string>(hclformatPathConfig);
+        let clipath = vscode.workspace.getConfiguration().get<string>(hclfmtPathConfig);
         let cliexist = false;
         try {
             cliexist = fs.existsSync(clipath);
@@ -39,7 +42,19 @@ export function activate(context: vscode.ExtensionContext) {
             document.lineAt(document.lineCount - 1).text.length
         );
         const range = new vscode.Range(start, end);
-        const content = document.getText(range);
+        let originalContent = document.getText(range);
+        let mapping = undefined;
+        let content = undefined;
+
+        let levant = vscode.workspace.getConfiguration().get<boolean>(levantSupportConfig);
+        if (levant) {
+            output.appendLine('preprocess levant lines');
+            let processed = preprocess(originalContent);
+            mapping = processed.mapping;
+            content = processed.content;
+        } else {
+            content = originalContent;
+        }
 
         let ret: cp.SpawnSyncReturns<Buffer> = cp.spawnSync(clipath, [], { input: content });
         if (ret.status != 0) {
@@ -48,8 +63,14 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showErrorMessage(`hclfmt: ${ret.stderr.toString()}`)
             return []
         }
+        let formatted = ret.stdout.toString();
         output.appendLine('formatted')
-        return [vscode.TextEdit.replace(range, ret.stdout.toString())];
+
+        if (levant) {
+            output.appendLine('postprocess levant lines');
+            formatted = postprocess(mapping, formatted);
+        }
+        return [vscode.TextEdit.replace(range, formatted)];
     }
 
 

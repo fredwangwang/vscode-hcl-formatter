@@ -2,7 +2,7 @@
     "name": "vscode-hcl-format",
     "displayName": "HCL Format",
     "description": "format HCL (HashiCorp Configuration Language)",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "publisher": "fredwangwang",
     "engines": {
         "vscode": "^1.30.0"
@@ -51,19 +51,33 @@
                     ],
                     "default": null,
                     "description": "the hclfmt fullpath  example[ mac,linux ] /usr/local/bin/hclfmt  [windows] C:/bin/hclfmt.exe   install from https://github.com/fatih/hclfmt"
+                },
+                "hclformat.levant_support": {
+                    "type": [
+                        "boolean"
+                    ],
+                    "default": false,
+                    "description": "Experimental: supports format HCL files that have [levant](https://github.com/hashicorp/levant) syntax embeded."
                 }
             }
         }
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "package": "tsc && ./node_modules/.bin/vsce package"
+        "package": "tsc && ./node_modules/.bin/vsce package",
+        "test": "./node_modules/.bin/ts-mocha --paths test/*.spec.ts"
     },
     "devDependencies": {
+        "@types/mocha": "^8.0.3",
         "@types/node": "^12.12.68",
         "@types/vscode": "^1.30.0",
+        "mocha": "^8.2.0",
+        "ts-mocha": "^7.0.0",
         "typescript": "^4.0.3",
         "vsce": "^1.81.1",
         "vscode": "^1.1.37"
+    },
+    "dependencies": {
+        "uuid": "^8.3.1"
     }
 }
