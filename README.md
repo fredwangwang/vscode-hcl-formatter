@@ -1,6 +1,11 @@
 # HCL Formatter
 
-Formats HCL documents. [hclfmt](https://github.com/fatih/hclfmt) need to be installed.
+Formats HCL documents. hclfmt need to be installed.
+
+## Prereqs
+
+- golang
+- go get -u github.com/hashicorp/hcl/v2/cmd/hclfmt
 
 ## Configuration:
 
