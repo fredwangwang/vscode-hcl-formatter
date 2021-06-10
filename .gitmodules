@@ -1,0 +1,3 @@
+[submodule "hcl"]
+	path = hcl
+	url = git@github.com:hashicorp/hcl.git

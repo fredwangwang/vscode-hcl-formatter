@@ -2,7 +2,7 @@
     "name": "vscode-hcl-format",
     "displayName": "HCL Format",
     "description": "format HCL (HashiCorp Configuration Language)",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "publisher": "fredwangwang",
     "engines": {
         "vscode": "^1.30.0"
@@ -44,27 +44,26 @@
             "type": "object",
             "title": "HCL Format",
             "properties": {
-                "hclformat.path": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "default": null,
-                    "description": "the hclfmt fullpath  example[ mac,linux ] /usr/local/bin/hclfmt  [windows] C:/bin/hclfmt.exe   install from https://github.com/fatih/hclfmt"
+                "hclformat.hclfmt_path": {
+                    "type": "string",
+                    "default": "",
+                    "description": "the hclfmt path. If not provided bundled hclfmt is used. (https://github.com/fredwangwang/vscode-hcl-formatter/releases)"
                 },
                 "hclformat.levant_support": {
-                    "type": [
-                        "boolean"
-                    ],
-                    "default": false,
+                    "type": "boolean",
+                    "default": true,
                     "description": "Experimental: supports format HCL files that have [levant](https://github.com/hashicorp/levant) syntax embeded."
                 }
             }
         }
     },
+    "extensionDependencies": [
+        "mindaro-dev.file-downloader"
+    ],
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install",
         "package": "tsc && ./node_modules/.bin/vsce package",
+        "publish": "tsc && ./node_modules/.bin/vsce publish",
         "test": "./node_modules/.bin/ts-mocha --paths test/*.spec.ts"
     },
     "devDependencies": {
@@ -78,6 +77,7 @@
         "vscode": "^1.1.37"
     },
     "dependencies": {
+        "@microsoft/vscode-file-downloader-api": "^1.0.1",
         "uuid": "^8.3.1"
     }
 }

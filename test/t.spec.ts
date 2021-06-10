@@ -16,8 +16,6 @@ resources {
 }
 `
 
-
-
 describe('', () => {
     it('parse out levant sections', () => {
         const { mapping, content } = preprocess(levantContent);

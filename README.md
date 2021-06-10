@@ -12,3 +12,12 @@ Formats HCL documents. hclfmt need to be installed.
 `hclformat.path`: path to the hclfmt binary
 
 `hclformat.levant_support`: (false) support format HCL with embeded levant syntax
+
+
+## Dev Build
+
+1. `npm install`
+
+
+## Ref
+https://code.visualstudio.com/api/references/extension-manifest
