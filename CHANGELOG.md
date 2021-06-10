@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1]
+
+### Added
+
+* Bundled hclfmt
+* Allow download of hclfmt if not exist
+
 ## [0.3.0]
 ### Added
 
