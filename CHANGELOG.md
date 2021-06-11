@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.3]
+
+### Changed
+
+Default levant support to true
+
+## [0.4.2]
+
+### Added
+
+icon
+
 ## [0.4.1]
 
 ### Added
