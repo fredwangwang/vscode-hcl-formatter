@@ -7,7 +7,7 @@ const re3 = /\[\[.*?\]\]/g                  // replace levant standalone
 const placeholder = '__fww_hclformat_placeholder__'
 
 export function preprocess(levantContent: string) {
-    let mapping = {}
+    let mapping = [];
 
     let content = levantContent;
     let phstring = undefined;
@@ -17,8 +17,8 @@ export function preprocess(levantContent: string) {
     if (matches1 != null && matches1 != undefined) {
         for (let match of matches1) {
             phstring = placeholder + uuidv4();
-            mapping[phstring] = match
-            content = content.replace(match, phstring)
+            mapping.push([match, phstring]);
+            content = content.replace(match, phstring);
         }
     }
 
@@ -27,8 +27,8 @@ export function preprocess(levantContent: string) {
     if (matches2 != null && matches2 != undefined) {
         for (let match of matches2) {
             phstring = '"' + placeholder + uuidv4() + '"';
-            mapping[phstring] = match
-            content = content.replace(match, phstring)
+            mapping.push([match, phstring]);
+            content = content.replace(match, phstring);
         }
     }
     // re3
@@ -36,17 +36,18 @@ export function preprocess(levantContent: string) {
     if (matches3 != null && matches3 != undefined) {
         for (let match of matches3) {
             phstring = '// ' + placeholder + uuidv4();
-            mapping[phstring] = match
-            content = content.replace(match, phstring)
+            mapping.push([match, phstring]);
+            content = content.replace(match, phstring);
         }
     }
 
     return { mapping, content }
 }
 
-export function postprocess(mapping: object, levantContent: string) {
+export function postprocess(mapping: string[][], levantContent: string) {
     let content = levantContent;
-    for (let [mapped, original] of Object.entries(mapping)) {
+    while (mapping.length > 0) {
+        let [original, mapped] = mapping.pop()
         content = content.replace(mapped, original);
     }
     return content;
