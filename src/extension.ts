@@ -120,7 +120,7 @@ export async function activate(context: vscode.ExtensionContext) {
             content = originalContent;
         }
 
-        let ret: cp.SpawnSyncReturns<Buffer> = cp.spawnSync(hclfmtPath, [], { input: content });
+        let ret = cp.spawnSync(hclfmtPath, [], { input: content, encoding: 'buffer' });
         if (ret.status != 0) {
             output.appendLine('format error');
             output.appendLine(ret.stderr.toString())

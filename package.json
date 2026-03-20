@@ -68,14 +68,14 @@
         "postinstall": "node ./node_modules/vscode/bin/install",
         "package": "tsc && ./node_modules/.bin/vsce package",
         "publish": "tsc && ./node_modules/.bin/vsce publish",
-        "test": "./node_modules/.bin/ts-mocha --paths test/*.spec.ts"
+        "test": "mocha -r ts-node/register 'test/**/*.spec.ts'"
     },
     "devDependencies": {
         "@types/mocha": "^8.0.3",
         "@types/node": "^12.12.68",
         "@types/vscode": "^1.30.0",
         "mocha": "^9.2.0",
-        "ts-mocha": "^7.0.0",
+        "ts-node": "^10.9.2",
         "typescript": "^4.0.3",
         "vsce": "^2.6.3",
         "vscode": "^1.1.37"
